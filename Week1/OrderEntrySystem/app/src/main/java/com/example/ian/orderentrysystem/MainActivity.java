@@ -53,23 +53,6 @@ public class MainActivity extends AppCompatActivity {
         completeOrderBtn = (Button) findViewById(R.id.buttonSave);
         orderStatusDisplay = (TextView) findViewById(R.id.textViewOrderDisplay);
 
-//        shipping.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
-//                String radioVal;
-//                switch (id) {
-//                    case R.id.radioButtonNormShipping:
-//                        radioVal = normalShipping.getText().toString();
-//                        break;
-//                    case R.id.radioButtonExpShipping:
-//                        radioVal = expeditedShipping.getText().toString();
-//                        break;
-//
-//                }
-//
-//                return radioVal;
-//            }
-//        });
 
         // set on click listener for order completion
         completeOrderBtn.setOnClickListener(new View.OnClickListener() {

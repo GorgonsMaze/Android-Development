@@ -9,12 +9,16 @@ public class Order implements Parcelable {
 	String lastName;
 	String chocolateType;
 	int numOfBarsPurchased;
-	String shippingType;
+	boolean shippingType;
 	
 	public Order() {}
 
-    public Order(String fName, String lName, String chocType, int numPurchased, String shippingType) {
-
+    public Order(String fName, String lName, String chocType, int numPurchased, boolean shippingType) {
+        this.firstName = fName;
+        this.lastName = lName;
+        this.chocolateType = chocType;
+        this.numOfBarsPurchased = numPurchased;
+        this.shippingType = shippingType;
     }
 
     public String getFirstName() {
@@ -49,13 +53,14 @@ public class Order implements Parcelable {
         this.numOfBarsPurchased = numOfBarsPurchased;
     }
 
-    public String isShippingType() {
+    public boolean isShippingType() {
         return shippingType;
     }
 
-    public void setShippingType(String shippingType) {
+    public void setShippingType(boolean shippingType) {
         this.shippingType = shippingType;
     }
+
 
     @Override
     public int describeContents() {
@@ -68,7 +73,7 @@ public class Order implements Parcelable {
         dest.writeString(this.lastName);
         dest.writeString(this.chocolateType);
         dest.writeInt(this.numOfBarsPurchased);
-        dest.writeString(this.shippingType);
+        dest.writeByte(this.shippingType ? (byte) 1 : (byte) 0);
     }
 
     protected Order(Parcel in) {
@@ -76,10 +81,10 @@ public class Order implements Parcelable {
         this.lastName = in.readString();
         this.chocolateType = in.readString();
         this.numOfBarsPurchased = in.readInt();
-        this.shippingType = in.readString();
+        this.shippingType = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
         @Override
         public Order createFromParcel(Parcel source) {
             return new Order(source);

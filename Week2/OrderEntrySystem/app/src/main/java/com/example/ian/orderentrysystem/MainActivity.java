@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         String lName = lastName.getText().toString();
         String chocType = chocolateType.getSelectedItem().toString();
         int numOfBars = Integer.valueOf(numberOfBars.getText().toString());
-        String shippingType;
+        boolean shippingType;
         if (normalShipping.isChecked()) {
-            shippingType = normalShipping.getText().toString();
+            shippingType = true;
         } else {
-            shippingType = expeditedShipping.getText().toString();
+            shippingType = false;
         }
 
         Order newOrder = new Order();

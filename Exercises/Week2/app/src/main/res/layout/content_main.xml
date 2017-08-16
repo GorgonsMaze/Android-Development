@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/btnPeopleContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:background="@android:color/holo_orange_dark"
+        android:text="People Contact"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnGeoLocationbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnPeopleContact"
+        android:layout_alignStart="@+id/btnPeopleContact"
+        android:layout_below="@+id/btnPeopleContact"
+        android:layout_marginTop="31dp"
+        android:text="GeoLocation" />
+
+    <Button
+        android:id="@+id/btnImageCapturebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnGeoLocationbtn"
+        android:layout_alignStart="@+id/btnGeoLocationbtn"
+        android:layout_below="@+id/btnGeoLocationbtn"
+        android:layout_marginTop="35dp"
+        android:text="Image Capture" />
+</RelativeLayout>

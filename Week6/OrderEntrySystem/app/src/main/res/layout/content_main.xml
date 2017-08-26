@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:text="First Name"
+        android:layout_alignBaseline="@+id/editTextFName"
+        android:layout_alignBottom="@+id/editTextFName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/editTextFName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginTop="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Name"
+        android:layout_alignBaseline="@+id/editTextLName"
+        android:layout_alignBottom="@+id/editTextLName"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editTextLName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/editTextFName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type of Chocolate"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="23dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of Bars"
+        android:layout_alignBaseline="@+id/editTextNumOfBars"
+        android:layout_alignBottom="@+id/editTextNumOfBars"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editTextNumOfBars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shipping Type"
+        android:layout_below="@+id/editTextNumOfBars"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupShipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView7"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4">
+
+        <RadioButton
+            android:id="@+id/radioButtonNormShipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/radioButtonExpShipping"
+            android:layout_alignLeft="@+id/radioButtonExpShipping"
+            android:layout_alignStart="@+id/radioButtonExpShipping"
+            android:layout_marginBottom="13dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Normal Shipping" />
+
+        <RadioButton
+            android:id="@+id/radioButtonExpShipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonSave"
+            android:layout_alignLeft="@+id/radioGroup"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_weight="1"
+            android:text="Expedited" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToResults"
+        android:text="Save"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/editTextPrice"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignStart="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textViewOrderDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of Orders = 0"
+        android:layout_below="@+id/buttonSave"
+        android:layout_alignRight="@+id/radioGroupShipping"
+        android:layout_alignEnd="@+id/radioGroupShipping"
+        android:layout_marginTop="12dp" />
+
+
+    <Spinner
+        android:id="@+id/spinnerChocolateType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/chocolate_types"
+        android:layout_above="@+id/editTextNumOfBars"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textViewOrderDisplay"
+        android:layout_alignLeft="@+id/editTextNumOfBars"
+        android:layout_alignStart="@+id/editTextNumOfBars" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonSave"
+        android:layout_alignStart="@+id/buttonSave"
+        android:layout_below="@+id/radioGroupShipping"
+        android:layout_marginTop="11dp"
+        android:text="Price" />
+
+    <EditText
+        android:id="@+id/editTextPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:id="@+id/editTextGetOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textViewOrderDisplay"
+        android:layout_alignStart="@+id/textViewOrderDisplay"
+        android:layout_marginBottom="15dp" />
+
+    <Button
+        android:id="@+id/btnGetOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editTextGetOrderId"
+        android:layout_toEndOf="@+id/editTextGetOrderId"
+        android:layout_toRightOf="@+id/editTextGetOrderId"
+        android:text="Get Order" />
+
+
+</RelativeLayout>

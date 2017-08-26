@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">OrderEntrySystem</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="chocolate_types">
+        <item>Milk Chocolate</item>
+        <item>Dark Chocolate</item>
+        <item>White Chocolate</item>
+    </string-array>
+    <string name="title_activity_results">ResultsActivity</string>
+</resources>

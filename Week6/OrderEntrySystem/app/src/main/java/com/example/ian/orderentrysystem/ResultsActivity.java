@@ -1,25 +1,30 @@
 package com.example.ian.orderentrysystem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.w3c.dom.Text;
+import static android.R.attr.data;
+import static android.R.attr.duration;
+import static android.widget.Toast.makeText;
 
 public class ResultsActivity extends AppCompatActivity {
 
-//    static ArrayList<Order> CandyOrders = new ArrayList<>();
-
     private Button backToMain;
+    private Button searchByPrice;
+    private EditText priceToSearch;
+    DatabaseHandler db;
+    ListView results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +34,65 @@ public class ResultsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        db = new DatabaseHandler(this);
+        searchByPrice = (Button) findViewById(R.id.btnSearchByPrice);
+        priceToSearch = (EditText) findViewById(R.id.editTextPriceToSearch);
         backToMain = (Button) findViewById(R.id.btnBackToMain);
+        results = (ListView) findViewById(R.id.resultsList);
 
 
         Bundle extras = getIntent().getExtras();
         Order newOrder = extras.getParcelable("yourkey");
-        CandyOrders.add(newOrder);
 
-        // Declare ListView
-        ListView results = (ListView) findViewById(R.id.resultsList);
-        // defining Adapter for List content
+        db.addOrder(newOrder);
+
+        List<Order> orders = db.getAllOrders();
+
 
         //simple_list_item_1 contains only a TextView
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1);
-        // adding entries in List
 
-        for (int counter = 0; counter < CandyOrders.size(); counter++) {
-            adapter.add(CandyOrders.get(counter).getFirstName() + " " + CandyOrders.get(counter).getLastName() + " - " + CandyOrders.get(counter).getChocolateType() + " - " + CandyOrders.get(counter).getNumOfBarsPurchased() + " bars");
+        // adding entries in List
+        for (int counter = 0; counter < orders.size(); counter++) {
+            adapter.add(orders.get(counter).getFirstName() + " " + orders.get(counter).getLastName() + " ID = " + orders.get(counter).getId() + " - $" +  String.format("%.2f", orders.get(counter).getPrice()));
         }
+
         // setting adapter to list
         results.setAdapter(adapter);
+
+
+        searchByPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (priceToSearch.getText().toString().matches("")) {
+                    String text = "Enter a price to search!";
+
+                    Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+
+                }
+
+
+                List<Order> ordersByPrice = db.getOrderByPrice(Float.valueOf(priceToSearch.getText().toString()));
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                        android.R.layout.simple_list_item_1);
+
+
+                for (int counter = 0; counter < ordersByPrice.size(); counter++) {
+                    adapter.add(ordersByPrice.get(counter).getFirstName() + " " + ordersByPrice.get(counter).getLastName() + " ID = " + ordersByPrice.get(counter).getId() + " - $" +  String.format("%.2f", ordersByPrice.get(counter).getPrice()));
+                }
+
+
+                results.setAdapter(adapter);
+
+            }
+        });
+
 
         backToMain.setOnClickListener(new View.OnClickListener() {
 
@@ -67,7 +109,7 @@ public class ResultsActivity extends AppCompatActivity {
     @Override
     public void finish() {
         Intent i = new Intent();
-        String numberOfOrders = "Number of Orders = " + CandyOrders.size();
+        String numberOfOrders = "Number of Orders = " + db.getOrdersCount();
         i.putExtra("returnkey", numberOfOrders);
         setResult(RESULT_OK, i);
         // Close

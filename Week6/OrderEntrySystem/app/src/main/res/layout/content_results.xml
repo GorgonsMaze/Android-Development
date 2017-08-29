@@ -39,7 +39,7 @@
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="numberDecimal" />
 
     <TextView
         android:id="@+id/textView8"

@@ -9,12 +9,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.key;
+import static android.R.attr.order;
+
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	// All Static variables
 	// Database Version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// Database Name
 	private static final String DATABASE_NAME = "orderManager";
@@ -27,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_FIRST_NAME = "first_name";
 	private static final String KEY_LAST_NAME = "last_name";
 	private static final String KEY_CHOCOLATE_TYPE = "chocolate_type";
-	private static final String KEY_NUM_OF_BARS = "number_of_bars"
+	private static final String KEY_NUM_OF_BARS = "number_of_bars";
 	private static final String KEY_SHIPPING_TYPE = "shipping_type";
 	private static final String KEY_PRICE = "price";
 
@@ -42,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_FIRST_NAME + " TEXT,"
 				+ KEY_LAST_NAME + " TEXT," + KEY_CHOCOLATE_TYPE + " TEXT,"
 				+ KEY_NUM_OF_BARS + " INTEGER," +KEY_SHIPPING_TYPE + " INTEGER,"
-				+ KEY_PRICE + " REAL," + ")";
+				+ KEY_PRICE + " REAL" + ")";
 		/**
 		 *  KEY PRICE INTEGER OR STRING?
 		 */
@@ -88,52 +91,76 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
-	// Getting single contact
-	Order getOrder(int id) {
+	// Getting single order
+	Order getOrderByID(int id) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT * FROM " + TABLE_ORDERS + " WHERE " + id + " = "
-		Cursor cursor = db.query(TABLE_ORDERS, new String[] { KEY_ID,
-				KEY_NAME, KEY_TYPE }, KEY_ID + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
+		String selectQuery = "SELECT  * FROM " + TABLE_ORDERS + " WHERE " + KEY_ID + " = " + "'" + id + "'";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		bankAccount account = new bankAccount(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), cursor.getString(2));
-		// return contact
-		return account;
+        boolean shipping_type = false;
+
+        if (cursor.getInt(5) == 1) {
+            shipping_type = true;
+        }
+
+        Order order = new Order(Integer.parseInt(cursor.getString(0)),
+				cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getInt(4),
+                shipping_type,
+                cursor.getFloat(6));
+
+		// return order
+		return order;
 	}
 
 
-	// Getting All Accounts by name
-	public List<bankAccount> getAccountByName(String name) {
-		List<bankAccount> contactList = new ArrayList<bankAccount>();
+	// Getting All Orders greater than price
+	public List<Order> getOrderByPrice(float price) {
+		List<Order> orderList = new ArrayList<Order>();
 		// Select All Query
-		String selectQuery = "SELECT  * FROM " + TABLE_ORDERS + " WHERE " + KEY_NAME + " = " + "'" + name + "'";
+		String selectQuery = "SELECT  * FROM " + TABLE_ORDERS + " WHERE " + KEY_PRICE + " >= " + "'" + price + "'";
 
-		SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				bankAccount account = new bankAccount();
-				account.setID(Integer.parseInt(cursor.getString(0)));
-				account.setName(cursor.getString(1));
-				account.set_type(cursor.getString(2));
-				// Adding contact to list
-				contactList.add(account);
+                Order order = new Order();
+                order.setId(Integer.parseInt(cursor.getString(0)));
+                order.setFirstName(cursor.getString(1));
+                order.setLastName(cursor.getString(2));
+                order.setChocolateType(cursor.getString(3));
+                order.setNumOfBarsPurchased(cursor.getInt(4));
+
+                int shippingType = cursor.getInt(5);
+                if (shippingType == 1) {
+                    order.setShippingType(true);
+                } else {
+                    order.setShippingType(false);
+                }
+                order.setPrice(cursor.getFloat(6));
+
+
+                // Adding order to list
+                orderList.add(order);
 			} while (cursor.moveToNext());
 		}
 
-		// return contact list
-		return contactList;
+		// return order list
+		return orderList;
 	}
 
-	// Getting All Contacts
-	public List<bankAccount> getAllAccounts() {
-		List<bankAccount> contactList = new ArrayList<bankAccount>();
+	// Getting All Orders
+	public List<Order> getAllOrders() {
+		List<Order> orderList = new ArrayList<Order>();
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_ORDERS;
 
@@ -143,44 +170,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				bankAccount account = new bankAccount();
-				account.setID(Integer.parseInt(cursor.getString(0)));
-				account.setName(cursor.getString(1));
-				account.set_type(cursor.getString(2));
-				// Adding contact to list
-				contactList.add(account);
+				Order order = new Order();
+				order.setId(Integer.parseInt(cursor.getString(0)));
+				order.setFirstName(cursor.getString(1));
+				order.setLastName(cursor.getString(2));
+				order.setChocolateType(cursor.getString(3));
+				order.setNumOfBarsPurchased(cursor.getInt(4));
+
+				int shippingType = cursor.getInt(5);
+				if (shippingType == 1) {
+					order.setShippingType(true);
+				} else {
+					order.setShippingType(false);
+				}
+				order.setPrice(cursor.getFloat(6));
+
+
+				// Adding order to list
+				orderList.add(order);
 			} while (cursor.moveToNext());
 		}
 
-		// return contact list
-		return contactList;
-	}
-
-	// Updating single contact
-	public int updateAccount(bankAccount account) {
-		SQLiteDatabase db = this.getWritableDatabase();
-
-		ContentValues values = new ContentValues();
-		values.put(KEY_NAME, account.getName());
-		values.put(KEY_TYPE, account.get_type());
-
-		// updating row
-		return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(account.getID()) });
-	}
-
-	// Deleting single contact
-	public void deleteAccount(bankAccount account) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_ORDERS, KEY_ID + " = ?",
-				new String[] { String.valueOf(account.getID()) });
-		db.close();
+		// return order list
+		return orderList;
 	}
 
 
-	// Getting contacts Count
-	public int getAccountsCount() {
-		String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+	// Getting Orders Count
+	public int getOrdersCount() {
+		String countQuery = "SELECT  * FROM " + TABLE_ORDERS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 		int county = cursor.getCount();

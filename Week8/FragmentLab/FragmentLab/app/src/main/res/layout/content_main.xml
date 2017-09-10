@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="fragmentlab.ian.fragmentlab.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+
+    <fragment
+        android:layout_width="380dp"
+        android:layout_height="335dp"
+        android:name="fragmentlab.ian.fragmentlab.OrdersEntryFragment"
+        android:id="@+id/blankFragment"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout="@layout/fragment_blank"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <fragment
+        android:layout_width="378dp"
+        android:layout_height="279dp"
+        android:name="fragmentlab.ian.fragmentlab.OrdersFragment"
+        android:id="@+id/itemfragment"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout="@layout/fragment_item_list"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/blankFragment" />
+</android.support.constraint.ConstraintLayout>

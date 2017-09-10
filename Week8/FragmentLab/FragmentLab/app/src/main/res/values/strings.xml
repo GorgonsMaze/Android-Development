@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FragmentLab</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="chocolate_types">
+        <item>Milk Chocolate</item>
+        <item>Dark Chocolate</item>
+        <item>White Chocolate</item>
+    </string-array>
+</resources>
